@@ -17,6 +17,12 @@ export class GithubApiController {
     return this.githubApiService.listRepositories(owner);
   }
 
+  @Get('members')
+  @HttpCode(HttpStatus.OK)
+  members(@Query('owner') owner?: string) {
+    return this.githubApiService.listOrgMembers(owner);
+  }
+
   @Get('commits')
   @HttpCode(HttpStatus.OK)
   commits(@Query() query: QueryGithubApiDto) {

@@ -39,6 +39,14 @@ type DevRepoAggregate = {
   deletions: number;
 };
 
+type GithubOrgMember = {
+  login: string;
+  id: number;
+  html_url: string;
+  avatar_url: string;
+  type: string;
+};
+
 @Injectable()
 export class GithubApiService {
   private readonly logger = new Logger(GithubApiService.name);
@@ -66,6 +74,30 @@ export class GithubApiService {
       name: repository.name,
       fullName: repository.full_name,
       private: repository.private,
+    }));
+  }
+
+  async listOrgMembers(owner?: string): Promise<
+    Array<{
+      login: string;
+      id: number;
+      htmlUrl: string;
+      avatarUrl: string;
+      type: string;
+    }>
+  > {
+    const resolvedOwner = this.resolveOwner(owner) || 'Foxcode-Studio-Server';
+    const members = await this.fetchPaginated<GithubOrgMember>(
+      `/orgs/${resolvedOwner}/members`,
+      { per_page: '100' },
+    );
+
+    return members.map((member) => ({
+      login: member.login,
+      id: member.id,
+      htmlUrl: member.html_url,
+      avatarUrl: member.avatar_url,
+      type: member.type,
     }));
   }
 
