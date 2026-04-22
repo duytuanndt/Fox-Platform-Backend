@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'fox-platform-api',
       script: 'dist/main.js',
-      cwd: '/home/deploy/group-server/Fox-Platform-Backend',
+      cwd: '/home/ubuntu/group-server/Fox-Platform-Backend',
       instances: 1,
       exec_mode: 'fork',
       autorestart: true,
